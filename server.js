@@ -1,7 +1,8 @@
 'use strict';
 
 const express = require('express');
-const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
+var https = require('https');
+var fs = require('fs');
 
 /**
  * Starts the Express server.
@@ -10,9 +11,6 @@ const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
  */
 function startServer() {
   const app = express();
-
-  // Redirect HTTP to HTTPS,
-  app.use(redirectToHTTPS([/localhost:(\d{4})/], [], 301));
 
   // Logging for each request
   app.use((req, resp, next) => {
@@ -28,11 +26,14 @@ function startServer() {
   // Handle requests for static files
   app.use(express.static('public'));
 
+
+  var options = {
+    key: fs.readFileSync('certs/pwa-key.pem'),
+    cert: fs.readFileSync('certs/pwa-cert.pem')
+  };
+
   // Start the server
-  return app.listen('8000', () => {
-    // eslint-disable-next-line no-console
-    console.log('Local DevServer Started on port 8000...');
-  });
+  return https.createServer(options, app).listen(443);
 }
 
 startServer();

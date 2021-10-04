@@ -29,9 +29,18 @@ A continuación se debe acceder al directorio de trabajo.
 $ cd pwa_todo
 ```
 
-## Arrancar la aplicación web
-El fichero server.js contiene un servidor muy simple que tan solo sirve archivos estáticos que se encuentren en la carpeta "public" y redirige el tráfico http a https (condición indispensable para las PWAs).
+## Configurar y arrancar la aplicación web
+El fichero server.js contiene un servidor muy simple que tan solo sirve archivos estáticos que se encuentren en la carpeta "public".
+
+Es necesario crear los certificados HTTPS autofirmados (necesarios para PWAs) e instalar las dependencias npm.
+
+
+
 Para ejecutar dicho servidor y poder ver nuestra aplicación web funcionando ejecutamos:
 ```
+$ ./generate-keys.sh
+$ npm install
 $ npm start
 ```
+
+Ya podemos conectarnos a https://localhost/ (se recomienda usar Firefox).

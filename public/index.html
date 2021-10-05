@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>VanillaJS • TodoApp</title>
+    <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
@@ -22,6 +23,27 @@
     <footer id="info">
       <p>Double-click to edit a todo</p>
     </footer>
+
+    <script type="text/javascript">
+      
+      // Path to the service-worker
+      let swURL = 'service-worker.js';
+
+      // Register the service worker
+      if ('serviceWorker' in navigator) {
+        // Wait for the 'load' event to not block other work
+        window.addEventListener('load', async () => {
+          // Try to register the service worker.
+          try {
+            const reg = await navigator.serviceWorker.register(swURL);
+            console.log('Service worker registered!', reg);
+          } catch (err) {
+            console.log('Service worker registration failed: ', err);
+          }
+        });
+      }
+    </script>
+
     <script src="js/app.js"></script>
   </body>
 </html>
